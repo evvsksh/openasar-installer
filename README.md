@@ -1,2 +1,16 @@
-# openasar-installer
-Script that automatically installs OpenAsar on Linux-based systems.
+# OpenAsar Installer
+Automatically installs OpenAsar to the current Discord installation.
+
+## Usage
+Open the terminal, and type:
+```
+bash <(curl -sSL https://oa.evvsk.it)
+```
+---
+> [!NOTE]
+> ### Disclaimer
+> OpenAsar, developed by GooseMod, replaces parts of Discord’s
+> desktop code to improve performance and add features.
+> This script is an independent installer created for convenience.
+> I do not own or maintain OpenAsar, and all credit goes to its
+> original developers.
