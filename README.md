@@ -4,7 +4,7 @@ Automatically installs OpenAsar to the current Discord installation.
 ## Usage
 Open the terminal, and type:
 ```
-bash <(curl -sSL https://oa.evvsk.it)
+curl -sSL https://oa.evvsk.it | sh
 ```
 ---
 > [!NOTE]
