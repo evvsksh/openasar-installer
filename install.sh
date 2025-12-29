@@ -66,7 +66,6 @@ require_sudo() {
 
 # finds discord path
 find_discord_installation() {
-    # se l’utente ha passato --asar-path, usa quello
     if [[ -n "$CUSTOM_ASAR_PATH" ]]; then
         if [ -f "$CUSTOM_ASAR_PATH" ] && [ -r "$CUSTOM_ASAR_PATH" ]; then
             OPENASAR_DIR="$CUSTOM_ASAR_PATH"
