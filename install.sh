@@ -156,11 +156,17 @@ launch_discord() {
 
     DISCORD_BIN="$(dirname "$OPENASAR_DIR")/../Discord"
 
-    if [ -f "$DISCORD_BIN" ]; then
-        sudo -u "$SUDO_USER" env DISPLAY="$DISPLAY" XAUTHORITY="$XAUTHORITY" "$DISCORD_BIN" &>/dev/null &
+    if [ ! -x "$DISCORD_BIN" ]; then
+        DISCORD_BIN="$(command -v discord || true)"
+    fi
+
+    if [ -n "$DISCORD_BIN" ] && [ -x "$DISCORD_BIN" ]; then
+        sudo -u "${SUDO_USER:-$USER}" \
+            env DISPLAY="$DISPLAY" XAUTHORITY="$XAUTHORITY" \
+            "$DISCORD_BIN" &>/dev/null &
         success "Discord has been launched."
     else
-        error "Discord executable not found at $DISCORD_BIN."
+        error "Discord executable not found."
         return 1
     fi
 }
