@@ -78,34 +78,41 @@ find_discord_installation() {
     fi
 
 
+    REAL_USER="${SUDO_USER:-$(logname 2>/dev/null)}"
+    REAL_HOME=$(eval echo "~$REAL_USER")
+
     # app.asar default paths
+
     APP_ASAR_PATHS=(
+        "$REAL_HOME/.config/discord/app-*/resources/app.asar"
         "/opt/discord/resources/app.asar"
         "/usr/lib/discord/resources/app.asar"
         "/usr/lib64/discord/resources/app.asar"
         "/usr/share/discord/resources/app.asar"
         "/var/lib/flatpak/app/com.discordapp.Discord/current/active/files/discord/resources/app.asar"
-        "$HOME/.local/share/flatpak/app/com.discordapp.Discord/current/active/files/discord/resources/app.asar"
+        "$REAL_HOME/.local/share/flatpak/app/com.discordapp.Discord/current/active/files/discord/resources/app.asar"
         "/opt/discord-ptb/resources/app.asar"
         "/usr/lib/discord-ptb/resources/app.asar"
         "/usr/lib64/discord-ptb/resources/app.asar"
         "/usr/share/discord-ptb/resources/app.asar"
         "/var/lib/flatpak/app/com.discordapp.DiscordPtb/current/active/files/discord-ptb/resources/app.asar"
-        "$HOME/.local/share/flatpak/app/com.discordapp.DiscordPtb/current/active/files/discordPtb/resources/app.asar"
+        "$REAL_HOME/.local/share/flatpak/app/com.discordapp.DiscordPtb/current/active/files/discordPtb/resources/app.asar"
         "/opt/discord-canary/resources/app.asar"
         "/usr/lib/discord-canary/resources/app.asar"
         "/usr/lib64/discord-canary/resources/app.asar"
         "/usr/share/discord-canary/resources/app.asar"
         "/var/lib/flatpak/app/com.discordapp.DiscordCanary/current/active/files/discord-canary/resources/app.asar"
-        "$HOME/.local/share/flatpak/app/com.discordapp.DiscordCanary/current/active/files/discordCanary/resources/app.asar"
+        "$REAL_HOME/.local/share/flatpak/app/com.discordapp.DiscordCanary/current/active/files/discordCanary/resources/app.asar"
     )
 
-    for path in "${APP_ASAR_PATHS[@]}"; do
-        if [ -f "$path" ]; then
-            OPENASAR_DIR="$path"
-            success "Discord app.asar found: $OPENASAR_DIR"
-            return
-        fi
+    for pattern in "${APP_ASAR_PATHS[@]}"; do
+        for path in $pattern; do
+            if [ -f "$path" ]; then
+                OPENASAR_DIR="$path"
+                success "Discord app.asar found: $OPENASAR_DIR"
+                break 2
+            fi
+        done
     done
 
     info "Verifying app.asar..."
